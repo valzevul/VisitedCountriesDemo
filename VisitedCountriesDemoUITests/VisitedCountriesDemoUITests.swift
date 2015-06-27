@@ -22,7 +22,21 @@ class VisitedCountriesDemoUITests: XCTestCase {
     }
     
     func testExample() {
+        let app = XCUIApplication()
+        app.tables.staticTexts["Евразия"].tap()
+        app.navigationBars["List of countries"].buttons["Add"].tap()
+        
+        let textField = app.childrenMatchingType(.Window).elementAtIndex(0).childrenMatchingType(.Unknown).elementAtIndex(0).childrenMatchingType(.Unknown).elementAtIndex(0).childrenMatchingType(.Unknown).elementAtIndex(0).childrenMatchingType(.Unknown).elementAtIndex(0).childrenMatchingType(.Unknown).elementAtIndex(2).childrenMatchingType(.TextField).elementAtIndex(0)
+        textField.typeText("Болгария")
+        app.typeText("\n")
         
     }
+    
+    func testExample2() {
+        let app = XCUIApplication()
+        app.tables.staticTexts["Евразия"].tap()
+        app.tables.staticTexts["Франция"].tap()
+    }
+    
     
 }
