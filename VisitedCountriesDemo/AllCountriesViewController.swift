@@ -25,13 +25,13 @@ extension AllCountriesViewController: UITableViewDataSource {
         tableView.backgroundColor = UIColor(red:1, green:0.92, blue:0.78, alpha:1)
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return continents.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
-        cell.textLabel?.text = continents[indexPath.row]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil)
+        cell.textLabel?.text = continents[(indexPath as NSIndexPath).row]
         cell.textLabel?.textColor = UIColor(red:1, green:0.35, blue:0.16, alpha:1)
         cell.backgroundColor = UIColor(red:1, green:0.92, blue:0.78, alpha:1)
         return cell
@@ -40,16 +40,16 @@ extension AllCountriesViewController: UITableViewDataSource {
 
 extension AllCountriesViewController: UITableViewDelegate {
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Show the continent" {
             let continent = sender as! String
-            let vc = segue.destinationViewController as! ContinentViewController
+            let vc = segue.destination as! ContinentViewController
             vc.currentContinent = continent
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("Show the continent", sender: continents[indexPath.row])
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "Show the continent", sender: continents[(indexPath as NSIndexPath).row])
     }
     
 }

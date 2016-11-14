@@ -26,7 +26,7 @@ class ContinentViewController: UIViewController {
     var data = ["": [], "Евразия": ["Франция", "Франция", "Нидерланды", "Россия", "Испания", "Чехия", "Литва", "Эстония", "Латвия"], "Африка": ["Тунис"], "Северная Америка": ["США", "Ямайка"], "Южная Америка": [], "Антарктида": [], "Австралия": []]
     let regionRadius: CLLocationDistance = 10000
     
-    func centerMapOnLocation(location: CLLocation) {
+    func centerMapOnLocation(_ location: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
             regionRadius * 200.0, regionRadius * 200.0)
         mapView.setRegion(coordinateRegion, animated: true)
@@ -44,8 +44,8 @@ class ContinentViewController: UIViewController {
         centerMapOnLocation(initialLocation!)
     }
     
-    @IBAction func addNewCountry(sender: AnyObject) {
-        UIView.animateWithDuration(0.1, animations: {
+    @IBAction func addNewCountry(_ sender: AnyObject) {
+        UIView.animate(withDuration: 0.1, animations: {
             self.inputFieldTop.constant = 70
             }, completion: nil)
         newCountryTextField.becomeFirstResponder()
@@ -54,11 +54,11 @@ class ContinentViewController: UIViewController {
     
     func applyMapViewMemoryFix(){
         switch (self.mapView.mapType) {
-        case MKMapType.Hybrid:
-            self.mapView.mapType = MKMapType.Standard
+        case MKMapType.hybrid:
+            self.mapView.mapType = MKMapType.standard
             break;
-        case MKMapType.Standard:
-            self.mapView.mapType = MKMapType.Hybrid
+        case MKMapType.standard:
+            self.mapView.mapType = MKMapType.hybrid
             break;
         default:
             break;
@@ -69,7 +69,7 @@ class ContinentViewController: UIViewController {
         self.mapView = nil
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.applyMapViewMemoryFix()
     }
@@ -77,37 +77,37 @@ class ContinentViewController: UIViewController {
 
 extension ContinentViewController: UITableViewDataSource {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data[currentContinent]?.count ?? 0
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: nil)
-        cell.textLabel?.text = data[currentContinent]![indexPath.row]
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: nil)
+        cell.textLabel?.text = data[currentContinent]![(indexPath as NSIndexPath).row]
         return cell
     }
     
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.Delete) {
-            data[currentContinent]?.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            data[currentContinent]?.remove(at: (indexPath as NSIndexPath).row)
+            tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
         }
     }
 }
 
 
 extension ContinentViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         let country = textField.text
         textField.text = ""
         data[currentContinent]?.append(country ?? "")
         tableView.reloadData()
-        UIView.animateWithDuration(0.1, animations: {
+        UIView.animate(withDuration: 0.1, animations: {
             self.inputFieldTop.constant = -50
             }, completion: nil)
         return true
